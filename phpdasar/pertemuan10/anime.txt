@@ -1,0 +1,11 @@
+//Masukin database
+
+MariaDB [anime]> insert into daftar values (
+    -> NULL,
+    -> 'Charlotte',
+    -> 'Supranatural, School, Drama',
+    -> '8.1',
+    -> 'Seorang MC yang memiliki kekuatan super dan ia gunakan untuk kejahatan hingga ia bertemu seseorang yang mengubah hidupnya',
+    -> 'charlotte.jpg'
+    -> );
+

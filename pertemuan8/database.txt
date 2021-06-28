@@ -1,0 +1,213 @@
+
+// Pertemuan 8 --> database
+
+
+Buat database
+
+database : phpdasar
+tabel : siswa
+
+id int primary key auto_increment 
+nama varchar(100)
+nrp char(9)
+email varchar(100)
+jurusan varchar(100)
+gambar varchar(100)
+
+
+// Command MariaDB
+
+masuk ke dir /bin
+$ cd /opt/lampp/bin
+boleh pake
+$ sudo su
+trus
+$ ./mysql
+atau
+$ ./mysql -u root -p
+
+// setelah masuk ke console MariaDB
+
+MariaDB [(none)]> show databases; --> utk melihat tabel database
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpdasar           |
+| phpmyadmin         |
+| test               |
++--------------------+
+6 rows in set (0.001 sec)
+
+MariaDB [(none)]> create database <nama_database> --> utk membuat database
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpdasar           |
+| phpmyadmin         |
+| test               |
+| <nama_database>	 |
++--------------------+
+6 rows in set (0.001 sec)
+
+MariaDB [(none)]> use phpdasar; --> menggunakan database tsbt
+MariaDB [phpdasar]> create table <nama_table> (
+    -> id int primary key auto_increment,
+    -> nama varchar(100),
+    -> nrp char(9),
+    -> email varchar(100),
+    -> jurusan varchar(100),
+    -> gambar varchar(100)
+    -> );
+Query OK, 0 rows affected (0.428 sec)
+
+MariaDB [phpdasar]> show tables;
++--------------------+
+| Tables_in_phpdasar |
++--------------------+
+| siswa              |
++--------------------+
+1 row in set (0.001 sec)
+
+MariaDB [phpdasar]> describe siswa;
++---------+--------------+------+-----+---------+----------------+
+| Field   | Type         | Null | Key | Default | Extra          |
++---------+--------------+------+-----+---------+----------------+
+| id      | int(11)      | NO   | PRI | NULL    | auto_increment |
+| nama    | varchar(100) | YES  |     | NULL    |                |
+| nrp     | char(9)      | YES  |     | NULL    |                |
+| email   | varchar(100) | YES  |     | NULL    |                |
+| jurusan | varchar(100) | YES  |     | NULL    |                |
+| gambar  | varchar(100) | YES  |     | NULL    |                |
++---------+--------------+------+-----+---------+----------------+
+6 rows in set (0.066 sec)
+
+MariaDB [phpdasar]> insert into siswa values (NULL, 'Bangsat', '056739211', 'bangsat@gmail.com', 'IPS Kambing', 'bgst.jpg');
+Query OK, 1 row affected (0.087 sec)
+
+MariaDB [phpdasar]> select * from siswa;
++----+-----------------+-----------+-------------------+-------------+-------------+
+| id | nama            | nrp       | email             | jurusan     | gambar      |
++----+-----------------+-----------+-------------------+-------------+-------------+
+|  1 | Syuhada Rantisi | 052739208 | sr@gmail.com      | IPA         | syuhada.jpg |
+|  2 | Suada           | 052739211 | suada@gmail.com   | IPA         | suada.jpg   |
+|  3 | Suada           | 052739211 | suada@gmail.com   | IPA         | suada.jpg   |
+|  4 | Bangsat         | 056739211 | bangsat@gmail.com | IPS Kambing | bgst.jpg    |
++----+-----------------+-----------+-------------------+-------------+-------------+
+4 rows in set (0.001 sec)
+
+
+// Mencari siswa yang......
+
+MariaDB [phpdasar]> select nrp from siswa;
++-----------+
+| nrp       |
++-----------+
+| 052739208 |
+| 052739211 |
+| 052739211 |
+| 056739211 |
++-----------+
+4 rows in set (0.034 sec)
+
+MariaDB [phpdasar]> select nama, email from siswa;
++-----------------+-------------------+
+| nama            | email             |
++-----------------+-------------------+
+| Syuhada Rantisi | sr@gmail.com      |
+| Suada           | suada@gmail.com   |
+| Suada           | suada@gmail.com   |
+| Bangsat         | bangsat@gmail.com |
++-----------------+-------------------+
+4 rows in set (0.001 sec)
+
+MariaDB [phpdasar]> select * from siswa where email = 'bangsat@gmail.com';
++----+---------+-----------+-------------------+-------------+----------+
+| id | nama    | nrp       | email             | jurusan     | gambar   |
++----+---------+-----------+-------------------+-------------+----------+
+|  4 | Bangsat | 056739211 | bangsat@gmail.com | IPS Kambing | bgst.jpg |
++----+---------+-----------+-------------------+-------------+----------+
+1 row in set (0.059 sec)
+
+
+// Mengubah data 
+
+MariaDB [phpdasar]> update siswa set jurusan = 'PK' where id = 2;
+Query OK, 1 row affected (0.319 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [phpdasar]> select * from siswa;
++----+-----------------+-----------+-------------------+-------------+-------------+
+| id | nama            | nrp       | email             | jurusan     | gambar      |
++----+-----------------+-----------+-------------------+-------------+-------------+
+|  1 | Syuhada Rantisi | 052739208 | sr@gmail.com      | IPA         | syuhada.jpg |
+|  2 | Suada           | 052739211 | suada@gmail.com   | PK          | suada.jpg   |
+|  3 | Suada           | 052739211 | suada@gmail.com   | IPA         | suada.jpg   |
+|  4 | Bangsat         | 056739211 | bangsat@gmail.com | IPS Kambing | bgst.jpg    |
++----+-----------------+-----------+-------------------+-------------+-------------+
+4 rows in set (0.001 sec)
+
+
+// Delete data di tabel
+
+MariaDB [phpdasar]> delete from siswa where nama = 'Suada';
+Query OK, 2 rows affected (0.258 sec)
+
+MariaDB [phpdasar]> select * from siswa;
++----+-----------------+-----------+-------------------+-------------+-------------+
+| id | nama            | nrp       | email             | jurusan     | gambar      |
++----+-----------------+-----------+-------------------+-------------+-------------+
+|  1 | Syuhada Rantisi | 052739208 | sr@gmail.com      | IPA         | syuhada.jpg |
+|  4 | Bangsat         | 056739211 | bangsat@gmail.com | IPS Kambing | bgst.jpg    |
++----+-----------------+-----------+-------------------+-------------+-------------+
+2 rows in set (0.001 sec)
+
+
+// Delete table
+
+MariaDB [phpdasar]> drop table siswa;
+Query OK, 0 rows affected (0.340 sec)
+
+MariaDB [phpdasar]> select * from siswa;
+ERROR 1146 (42S02): Table 'phpdasar.siswa' doesn't exist
+
+
+// Delete database
+
+MariaDB [phpdasar]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpdasar           |
+| phpmyadmin         |
+| test               |
++--------------------+
+6 rows in set (0.134 sec)
+
+MariaDB [phpdasar]> drop database phpdasar;
+Query OK, 0 rows affected, 2 warnings (0.100 sec)
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+5 rows in set (0.001 sec)
+
+
+
+
+
